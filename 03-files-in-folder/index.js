@@ -4,7 +4,7 @@ const path = require('path');
 const folderPath = path.join(__dirname, 'secret-folder');
 
 function formatFileSize(bytes) {
-    return (bytes / 1024).toFixed(3) + 'kb';
+    return (bytes / 1000).toFixed(3) + 'kb';
 }
 
 function displayFileInfo(fileName, fileExtension, fileSize) {
