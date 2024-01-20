@@ -7,3 +7,7 @@ const readStream = fs.createReadStream(filePath);
 readStream.on('data', (chunk) => {
   console.log(chunk.toString());
 });
+
+readStream.on('error', (error) => {
+  console.log(`Oops, something wrong: ${error}`)
+})
