@@ -50,7 +50,6 @@ const compileStyles = async () => {
     }
 };
 
-// Вспомогательная функция для рекурсивного копирования директории
 const copyDirRecursive = async (src, dest) => {
     const entries = await fsPromises.readdir(src, { withFileTypes: true });
 
@@ -71,11 +70,9 @@ const copyDirRecursive = async (src, dest) => {
 
 const copyAssets = async () => {
     try {
-        // Используем свойства recursive и force, чтобы скопировать директорию целиком
         await fsPromises.rm(path.join(distDir, 'assets'), { recursive: true, force: true });
         await fsPromises.mkdir(path.join(distDir, 'assets'), { recursive: true });
 
-        // Копируем содержимое директории assets
         await copyDirRecursive(assetsDir, path.join(distDir, 'assets'));
 
         console.log('Directory assets successfully copied to project-dist');
@@ -86,27 +83,20 @@ const copyAssets = async () => {
 
 const main = async () => {
     try {
-        // Очищаем папку project-dist
         await fsPromises.rm(distDir, { recursive: true, force: true });
 
-        // Создаем папку project-dist
         await fsPromises.mkdir(distDir, { recursive: true });
         console.log('Folder project-dist successfully created');
 
-        // Читаем содержимое файла template.html
         const templateContent = await fsPromises.readFile(templateFile, 'utf-8');
 
-        // Заменяем теги-шаблоны содержимым соответствующих компонентов
         const replacedContent = await replaceTemplateTags(templateContent);
 
-        // Записываем результат в 'project-dist/index.html'
         await fsPromises.writeFile(path.join(distDir, 'index.html'), replacedContent, 'utf-8');
         console.log('File index.html successfully created in project-dist');
 
-        // Компилируем стили
         await compileStyles();
 
-        // Копируем директорию assets
         await copyAssets();
         console.log('Script has been executed successfully!');
     } catch (error) {

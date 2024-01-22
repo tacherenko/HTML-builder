@@ -6,14 +6,11 @@ const folderPathCopy = path.join(__dirname, 'files-copy');
 
 const copyDir = async () => {
     try {
-        // Удаляем папку files-copy и создаем ее заново
         await fsPromises.rm(folderPathCopy, { recursive: true, force: true });
         await fsPromises.mkdir(folderPathCopy, { recursive: true });
 
-        // Получаем список файлов в папке files
         const files = await fsPromises.readdir(folderPath, { withFileTypes: true });
 
-        // Копируем каждый файл в папку files-copy
         await Promise.all(files.map(async (file) => {
             const filePath = path.join(folderPath, file.name);
             const filePathCopy = path.join(folderPathCopy, file.name);

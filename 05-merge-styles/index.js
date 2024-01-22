@@ -7,19 +7,15 @@ const outputFilePath = path.join(distFolderPath, 'bundle.css');
 
 const compileStyles = async () => {
     try {
-        // Чтение файлов стилей
         const files = await fsPromises.readdir(stylesFolderPath);
         const cssFiles = files.filter(file => path.extname(file) === '.css');
 
-        // Чтение содержимого файлов стилей
         const cssContents = await Promise.all(
             cssFiles.map(file => fsPromises.readFile(path.join(stylesFolderPath, file), 'utf-8'))
         );
 
-        // Конкатенация стилей
         const bundleContent = cssContents.join('\n');
 
-        // Создание папки 'project-dist' и запись результирующего файла
         await fsPromises.mkdir(distFolderPath, { recursive: true });
         await fsPromises.writeFile(outputFilePath, bundleContent, 'utf-8');
 
