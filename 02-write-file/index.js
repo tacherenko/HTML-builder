@@ -4,10 +4,7 @@ const readline = require('readline');
 const { stdin, stdout, exit } = process;
 
 const filePath = path.join(__dirname, 'text.txt');
-const input = readline.createInterface({
-  input: stdin,
-  output: stdout
-});
+const input = readline.createInterface(stdin);
 const output = fs.createWriteStream(filePath);
 
 stdout.write('Hello! Enter your text here:\n');
@@ -18,11 +15,8 @@ const closeProcess = () => {
 };
 
 input.on('line', (message) => {
-  if (message.trim() === 'exit') {
-    closeProcess();
-  } else {
-    output.write(`${message}\n`);
-  }
+  if (message === 'exit') closeProcess();
+  output.write(`${message}\n`);
 });
 
 process.on('SIGINT', closeProcess);
